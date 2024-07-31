@@ -5,8 +5,8 @@ from wtforms import StringField , BooleanField , validators , HiddenField , Subm
 from wtforms.validators import  Email ,Optional
 from bracketer import db
 from bracketer.models import users , schools , chart2023 , chart2024 , students
-from re import search
-from hanzidentifier import identify, BOTH
+
+
 
 
 def check12(form,field):
