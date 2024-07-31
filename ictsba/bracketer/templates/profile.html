@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% block title %}
+    profile
+{% endblock %}
+
+{% block content %}
+{% import 'adminpanel.html' as admin %}
+
+<script>
+    var delschools = []
+    function displayheart(id) {
+            document.querySelector(`#${id}heart`).style.visibility = "visible";
+        
+    }
+    function hideheart(id){
+            document.querySelector(`#${id}heart`).style.visibility ="hidden";
+            
+    }
+    function display(id){//working , hvnt implement into other 
+        var currentcontent = document.querySelectorAll('.displaymsg')
+            currentcontent.forEach(function(item){
+            item.style.display = "none" ;
+            document.querySelector('#editconfirm').style.display = "none"
+        })
+        document.querySelector(`#${id}_container`).style.display = "block"
+        if (document.getElementById(`${id}`).className == "dbbtn"){
+            document.querySelector('#editconfirm').style.display = "block"
+        }
+    }
+    function insertclose(id){
+        document.querySelector(`#${id}_container`).style.display = "none"
+        document.querySelector('#insertchoosedb_container').style.display = "block"
+    }
+    function updateclose(id){
+        document.querySelector(`#${id}_container`).style.display = "none"
+    }
+    function adddelete(id){
+        if (document.querySelector(`#${id}`).innerText  == 'delete')
+        {   
+            delschools.push(document.getElementById(`var${id}`).innerHTML);
+            document.querySelector(`#${id}`).innerText  = 'cancel'
+            document.querySelector(`#${id}`).style.color = 'green'
+
+        }else{
+            document.querySelector(`#${id}`).innerText = 'delete'
+            document.querySelector(`#${id}`).style.color = 'rgb(156, 44, 55)'
+            delschools.splice(delschools.indexOf(document.getElementById(`var${id}`).innerHTML))
+        }  
+        document.getElementById("remove").value = JSON.stringify(delschools);  
+    }
+    function closeflash(){
+          document.querySelector('#error_container').style.display="none"; 
+        }
+    function popupdate(id,classname){  //for updating record
+        
+        document.querySelector(`#${classname}_container`).style.display = "block"; //popup the form
+        ogcontents = document.querySelector(`#var${id}`).textContent;
+        ogcontents = JSON.parse(ogcontents) //get the dict stored in the var tag for each record
+        var fields = document.getElementById(`${classname}form`).elements;
+        document.querySelector(`#${classname}og`).value = JSON.stringify(ogcontents)
+        for (var i = 1; i < fields.length-2; i++) {
+            var field = fields[i];
+            if (field.type != 'checkbox' ){
+                if (typeof ogcontents[field.id] != "undefined"){
+                    field.value = ogcontents[field.id];
+                }
+             //put default value into placeholder
+            }else{
+                if(field.checked == true){ //to prevent it being checked forever
+                    field.checked = false 
+                }
+
+                if (ogcontents[field.id]== 'True'){ //if originally is true, check the checkbox
+                    field.checked = true;
+                }
+            }
+            let editable = document.querySelector(`#${field.id}div`).getAttribute("data-edit");
+            if (editable == "false"){
+                field.disabled = true
+            }
+        }
+           //pass original content to the og field so that python file can read
+    }
+    function disable(){ //disable team two input if checkbox is not ticked
+        clicked = document.getElementById('team2').checked;  
+        team2s = document.getElementsByClassName('team2member')
+        for (var i = 0; i < team2s.length; i++){
+            team2s[i].disabled = !clicked;
+            if (clicked == true){
+                team2s[i].style.backgroundColor = "rgb(51, 45, 45)";
+            }else{
+                team2s[i].style.backgroundColor = "rgb(110, 4, 15)";
+            }
+
+        }
+        
+    }
+</script>
+
+{% if inserterror != None %} <!--display error -->
+    
+    <div id="error_container">
+        <div id="errormsg">
+            {{ inserterror }}
+            <button id='flashbtn' onclick="closeflash()"> X </button>
+        </div>
+    </div>
+{% endif %}
+
+
+
+    
+
+
+    <div> 
+        
+
+        {% if session['usertype'] == 'student' %}
+        <div id="id_container">
+        <div class="studentinfo"> School: {{session['schoolname']}} </div>
+        <div class="studentinfo">Team : {{session['teamid']}} </div>
+        </div>
+        {% endif %}
+    </div>
+    <!-- profile display -->
+    <div id="profile"> 
+        
+        <div id="profiledisplay">
+                <!-- admin update -->
+            {{admin.adminupdate(updatechart,update2023,updateuser,updateschool,updatestudent)}}
+
+            <!-- admin insert -->
+            {{admin.admininsert(insertteam,insertschools,insert2023,insertnonstudent)}}
+
+            <!-- admin function btns -->
+            {{ admin.adminbtns() }}
+
+            <!-- admin edit btns -->
+            {{ admin.adminedit() }}
+
+            <div class='displaymsg' id="endapplication_container">
+                <form method="POST" action="/applystatus" style="text-align:center" id="applicationform">
+
+                    {{ endapplication.csrf_token }} 
+                    {{ endapplication.submit(value ='confirm', class='applybtn', id='applystatusbtn') }}
+
+                </form>
+            </div>
+
+            <div class='displaymsg' id="welcome" style="font-size:40px"> Welcome! {{session['username']}}. <br> Your account type is {{session['usertype']}} </div>
+            <!-- view team -->
+            <div class='displaymsg' id="team_container">
+                {% if session['usertype'] == 'student' %}
+                <div id="teamtext"> Team Members </div>
+                <div id="teaminfo_container">
+                
+                    <div id="number_container">
+                        {% for team in range(session['team']|length) %}
+                        <div class ='numbers'> member {{team + 1}} </div>
+                        {% endfor %}
+                    </div>
+                    <div id="member_container">
+                        {% for team in session['team']%}
+                        <div class ='members'>{{team}} </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        
+                
+
+            
+
+
+          
+
+
+        </div>
+        <div id = "profilechoose">
+            <!-- admin view -->
+            {% if session['usertype'] == 'admin' %}
+            <div class="button_container"> <img src="{{ url_for('static', filename='choose.png')}}" class="heartbtn" id="functionsheart"> <button id ="functions" class="profilebtn" onmouseover= "displayheart(this.id)" onmouseout="hideheart(this.id)" onclick="display(this.id)"> Functions </button> <br> <br>  </div>
+                
+            {% endif %}
+
+
+
+
+            {% if session['usertype'] == 'student'%}
+                <div class="button_container"> <img src="{{ url_for('static', filename='choose.png')}}" class="heartbtn" id="teamheart"> <button id="team" class="profilebtn" onmouseover= "displayheart(this.id)" onmouseout="hideheart(this.id)" onclick="display(this.id)"> Team </button> <br> <br> </div>    
+            {% endif %}
+
+
+            <form method="POST" action="" style="text-align:center" id="removeform">
+
+                {{ edit.csrf_token }} 
+                {{ edit.remove(id="remove") }}
+                {{ edit.confirm(id = "editconfirm" ,onclick = "changeaction()") }}
+            
+            </form>
+
+            <div class="button_container"> <img src="{{ url_for('static', filename='logout.png')}}" class="heartbtn" id="btn3heart"> 
+                <form method="POST" action="/logout" class="logout" > 
+                    <button id="btn3" class="profilebtn" onmouseover= "displayheart(this.id)" onmouseout="hideheart(this.id)" value ="log out"> Log out </button> 
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- if the session['load'] have data it means that certain db hv been clicked. Therefore , set it to display--> 
+{% if passwords %}
+    <div id="pwstuid_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="insertclose(this.id)" id="pwstuid"> X </button>
+            <div class="insertform_inner">
+                <div id="adminpwtext"> Passwords and STUID of the inserted students </div>
+                    <div id ="admininfo_container" >
+            
+                        {% if stuid %}                
+                        <div id="id_container" >
+                            <div id ="submitmsg2"> student id </div>
+                            {% for id in stuid %}
+                                <div class="id">
+                                    {{id}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}  
+
+                        {% if passwords %}
+                        <div id="pw_container"> 
+                            <div id ="submitmsg2"> password </div>
+                                {% for password in passwords %}
+                                    <div class="pw">
+                                        {{password}}
+                                    </div>
+                                {% endfor %}
+                        {% endif %}
+                        </div>
+                    </div>       
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if load %}
+    <script>
+        //change form action 
+        function changeaction(){
+        document.getElementById('removeform').action =  `/process${load}`
+        }
+        
+        let load = "{{load}}"
+        window.onload = display(load)
+        //change size of insert form dynamically
+    </script>
+{% endif %}
+
+{% endblock %}

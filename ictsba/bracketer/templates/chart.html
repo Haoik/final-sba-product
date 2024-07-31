@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% block title %}
+  chart
+{% endblock %}
+
+{% block content %}
+{% import 'macros.html' as macros %}
+<!-- javascript to "pop up" the form for the user to choose which team to win and close it-->
+{% set turn = 1 %}
+<script>
+  var blocknumber = -1
+  function reset(){
+    document.getElementById("clicked").value = '1';
+    
+  }
+  function openthing(buttonnumber) {
+  
+    blocknumber = buttonnumber
+    let team1 = document.getElementById(`${buttonnumber}blockteam1`).textContent;
+    let team2 = document.getElementById(`${buttonnumber}blockteam2`).textContent;
+    console.log(team2)
+    document.getElementById("progress").style.display = "flex";
+ 
+    document.getElementById("team1").textContent = team1;
+
+    document.getElementById("team2").textContent = team2;
+  }
+  function closething() {
+    document.getElementById("progress").style.display = "none";
+  }
+
+  // when a checkbox is clicked, return the winning team's sid tid and the losing team's sid tid and mark the other checkbox as unchecked
+  function getsidteam(num) {
+    wonsid = document.getElementById(`${blocknumber}team${num}sid`).innerHTML;
+    console.log(wonsid)
+    wontid = document.getElementById(`${blocknumber}team${num}tid`).innerHTML;
+    losesid = document.getElementById(`${blocknumber}team${3-num}sid`).innerHTML;
+    losetid = document.getElementById(`${blocknumber}team${3-num}tid`).innerHTML;
+    document.getElementById("wonsid").value = wonsid;  
+    document.getElementById("wontid").value = wontid;
+    document.getElementById("losesid").value = losesid;
+    document.getElementById("losetid").value = losetid;
+    document.getElementById(`team${3-num}checkbox`).checked = false; }
+
+</script>
+
+<!-- output as pdf -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"> </script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"> </script>
+<script>
+  async function downloadpdf() {
+    chartheight = document.querySelector('.chartpage').offsetHeight 
+    chartwidth = document.querySelector('.chartpage').offsetWidth 
+    var currentcontent = document.querySelectorAll('.proceedbutton')
+            currentcontent.forEach(function(item){
+            item.style.display = "none" ;
+        })
+    var totalround = document.querySelectorAll('.rounds').length
+    if (rotate == true){
+      var pdf = new jsPDF('p', 'pt', [chartheight +1000 , chartwidth+1000  ])
+    }else{
+      var pdf = new jsPDF('p', 'pt', [chartwidth+1000  , chartheight+1000  ])
+    }
+      canvas = await html2canvas(document.querySelector(`.chartpage`));
+      var imgData = canvas.toDataURL("image/jpeg", 1.0);
+      if (rotate == true){
+      pdf.addImage(imgData, 'JPG',  0,  0  ,chartheight,chartwidth);   
+      }else{
+      pdf.addImage(imgData, 'JPG',  0,  0  ,chartwidth , chartheight );  
+      }
+    pdf.save("Chart.pdf")
+    var currentcontent = document.querySelectorAll('.proceedbutton')
+            currentcontent.forEach(function(item){
+            item.style.display = "block" ;
+        })
+  }
+</script>
+
+
+<!-- pop up form -->
+<div id="progress" class="popupform">
+  {% if session['nowchart'] == 2024 %}
+  <form  method="POST" action ="/chart" style="text-align:center">
+  {% else %}
+  <form  method="POST" action ="/chartlastyear" style="text-align:center">
+  {% endif %}
+    <b class="large"> choose one team to be the winning team</b> <br>
+    <br><br><br>
+    {{ form.csrf_token }}
+
+    <div id = 'team1'> null </div> 
+
+    {{ form.team1(onclick= "getsidteam(1)" , id="team1checkbox" )}} <br>
+
+    <div id = 'team2'> null </div> 
+    
+    {{ form.team2(onclick= "getsidteam(2)" ,id="team2checkbox" )}}
+
+    <br><br><br>
+    {{form.wonsid}}
+    {{form.wontid}}
+    {{form.losesid}}
+    {{form.losetid}}
+    {{form.confirm(class="buttons",id="popupsubmit")}} <br><br>
+    <button type="button" class="buttons" id="popupback" onclick="closething()"> back </button>
+  </form>
+</div>
+<div>
+
+  {{macros.generatechart(teams)}}
+  <form id='setcolor' method="POST" action ="{{ url_for('colorset') }}" style="text-align:center">
+  <div id="colorbtns">
+    {{colors.csrf_token}}
+    {{colors.color(id="colorconfirm")}}
+    <input type="image" name="color" onclick="changebackground(this.id)" id="rgb(145, 47, 122)" src="{{ url_for('static', filename='purple.png')}}" width='50px' height='50px'>
+    <input type="image" name="color" onclick="changebackground(this.id)" id="rgb(86, 81, 219)" src="{{ url_for('static', filename='blue.png')}}" width='50px' height='50px'>
+    <input type="image" name="color" onclick="changebackground(this.id)" id="rgb(65, 166, 108)" src="{{ url_for('static', filename='green.png')}}" width='50px' height='50px'>
+    <input type="image" name="color" onclick="changebackground(this.id)" id="rgb(166, 154, 65)" src="{{ url_for('static', filename='yellow.png')}}" width='50px' height='50px'>
+    <input type="image" name="color" onclick="changebackground(this.id)" id="black" src="{{ url_for('static', filename='colorblack.png')}}" width='50px' height='50px'>
+  </div>
+  </form>
+</div>
+<script>
+  function changebackground(color){
+    document.querySelector("#colorconfirm").value = `${color}`
+  }
+  document.querySelector('.chartpage').style.backgroundColor = "{{session['color']}}"
+</script>
+
+
+<script> // set the width and height of the chartpage div 
+  height = document.querySelector('#round0').offsetHeight;
+  console.log('height of round 0',height)
+  document.querySelector('.chartpage').style.height = `${height}px`;
+  rounds = document.querySelector('#round0').querySelectorAll('.smallblock').length;
+  rounds = log2(rounds)+1
+  width = document.querySelector('#round0').offsetWidth;
+  width = width * (rounds+1)
+  document.querySelector('.chartpage').style.width = `${width}px`
+</script>
+
+
+
+<script> //change btn image when change to vertical graph / horizontal graph
+  function changeverin(){
+    rotatebutton = document.getElementById('rotatebutton')
+    rotatebutton.src = "{{ url_for('static', filename='chartvertical.png')}}"
+  }
+  function changeverout(){
+    rotatebutton = document.getElementById('rotatebutton')
+    rotatebutton.src = "{{ url_for('static', filename='charthorizontal.png')}}"
+  }
+</script>
+
+
+  
+
+
+<script>
+  function log2(y) {
+    return Math.log(y) / Math.log(2);
+  } 
+  // set the width and height of the chartpage div 
+  height = document.querySelector('#round0').offsetHeight;
+  console.log('height of round 0',height)
+  document.querySelector('.chartpage').style.height = `${height}px`;
+  rounds = document.querySelector('#round0').querySelectorAll('.smallblock').length;
+  rounds = log2(rounds)+1
+  width = document.querySelector('#round0').offsetWidth;
+  width = width * (rounds+1)
+  document.querySelector('.chartpage').style.width = `${width}px`
+</script>
+
+
+
+<!-- rotate graph to vertical -->
+
+
+{%if session['usertype'] == 'admin' %}
+<div>
+<form id='reset' method="POST" action ="{{ url_for('resetsession') }}" style="text-align:center">
+  {{doreset.csrf_token}}
+  {{doreset.reset(class="buttons" ,id="resetbtn")}}
+</form>
+</div>
+{% endif %}
+
+
+
+<div id="chartfunc">
+  <input type="image" onclick ="downloadpdf()" id="pdfbutton" src="{{ url_for('static', filename='nothing.png') }}"  width= 100px height=117px >
+  <form id='rotate' method="POST" action ="{{ url_for('rotategraph') }}" style="text-align:center">
+    <input type="image" id="rotatebutton" src="{{ url_for('static', filename='charthorizontal.png')}}" onmouseover="changeverin()" onmouseout = "changeverout()" width= 100px height=117px> 
+  </form>
+</div>
+{% if session['rotated'] == True %}
+<script>
+      //rotate chartpage
+      blocks = document.getElementsByClassName('block')
+     
+      rotatebutton = document.getElementById('rotatebutton')
+      rotatebutton.src = "{{ url_for('static', filename='chartvertical.png')}}"
+      rotatebutton.onmouseover = function changehoriover (){
+        rotatebutton.src = "{{ url_for('static', filename='charthorizontal.png')}}"
+      }
+      rotatebutton.onmouseout = function changehoriout(){
+        rotatebutton.src = "{{ url_for('static', filename='chartvertical.png')}}"
+      }
+      document.querySelector('.chartpage').style.height = `auto`;
+      height = document.querySelector('.chartpage').offsetHeight;
+      width = document.querySelector('.chartpage').offsetWidth;
+      rounds = document.getElementsByClassName('rounds')
+      oneblockwidth = document.querySelector('.block').offsetWidth
+      roundoneblocks = rounds[0].getElementsByClassName('block').length
+      console.log(oneblockwidth)
+      round0width = oneblockwidth*roundoneblocks
+      document.querySelector('.chartpage').style.webkitTransform ='rotate(90deg)';
+      document.querySelector('.chartpage').style.height = `${round0width+300}px;`
+      blocks = document.getElementsByClassName('block')
+      for (var i = 0; i < blocks.length; i++){
+        blocks[i].style.webkitTransform ='rotate(-90deg)';
+      }
+      document.querySelector('.chartpage').style.height = `${round0width+300}px;`
+      for (var i = 0; i < rounds.length; i++){
+        rounds[i].style.height = `${round0width+300}px`
+      }
+      
+      //setting proceed button to the correct position
+      proceedbuttons = document.getElementsByClassName('proceedbutton')
+      for (var i = 0; i < proceedbuttons.length; i ++){
+        proceedbuttons[i].style.position = 'relative';
+        proceedbuttons[i].style.top = '150px';  
+        proceedbuttons[i].style.right = '250px';
+      }   
+</script>
+{% endif %}
+<br>
+{%endblock%}
+
+
+
+

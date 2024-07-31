@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- link stylesheet and icon from static file-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css" />
+   <link rel="shortcut icon" href="{{ url_for('static', filename='logo.ico') }}"> 
+<!-- title -->
+<title>
+    
+    {% block title %}
+
+    {% endblock %}
+</title>
+</head>
+<body>
+    <ul>
+        <!-- navigation bar -->
+        <li><a href="{{ url_for('homepage') }}">Home</a></li>
+        <li><a href="{{ url_for('form') }}">Application</a></li>
+        {% if session['username'] %}
+        
+        <li> <a href= "{{url_for('profile')}}" > Profile </a></li>
+        <li><a href="{{ url_for('chartselect') }}">Charts</a></li>
+        {% else %}
+        <li> <a href="{{ url_for('register') }}">Register</a></li>
+        <li> <a href="{{ url_for('loginpage') }}">Login</a></li>
+        {% endif %}
+
+    </ul>    
+    <br>
+    <!-- link favicon from static file -->
+    <!--<img src="{{ url_for('static', filename='logo.png') }}" width="150" height="100"> </img> -->
+
+    <!-- content -->
+    {% block content %}
+    
+    {% endblock %}
+    {% block scripts %}
+    <!-- Scripts -->
+    {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}
+  success!
+{% endblock %}
+
+{% block content %}
+  <h1 style="text-align:center">
+    successfully submitted
+  </h1>
+{% if stuid %}
+<div id="submitmsg1"> Below are your teams' information, Please distribute to your students </div>
+{% endif %}
+<div id="info_container">
+  
+    {% if stuid %}
+        
+  <div id="id_container">
+      <div id ="submitmsg2">student id </div>
+      {% for id in stuid %}
+      <div class="id">
+      {{id}}
+      </div>
+      {% endfor %}
+    {% endif %}  
+  </div>
+
+  <div id="pw_container"> 
+    {% if passwords %}
+    <div id ="submitmsg2"> password </div>
+      {% for password in passwords %}
+        <div class="pw">
+        {{password}}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+</div>
+
+
+  <img src="{{ url_for('static', filename='success.png') }}" width="500" height="500" class="center">
+{% endblock %}

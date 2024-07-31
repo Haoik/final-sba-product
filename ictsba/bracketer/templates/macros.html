@@ -1,0 +1,60 @@
+{% macro generatechart(teams) %}
+    <div class="chartpage">
+    {% for team in range(teams|length)%} <!-- 0,1,2,3,4,....-->
+
+        <div class="rounds" id="round{{team}}" >
+        {% if teams[team]|length == 1%}
+            <div class="block"> 
+                <div class="smallblock">
+                    {{teams[team][0]['name']}} 
+                </div>
+             <div class="smallblock">{{'WINNER'}}</div>
+
+            </div>
+        {% endif %}
+        {%for i in range(teams[team]|length //2) %}
+            
+            <!-- each block is constructed seperately-->
+            <!--blocks -->
+            <div class="block"> 
+            {% for j in range(i*2,i*2+2) %}
+
+
+            
+                <div class="smallblock">    
+                    {{teams[team][j]['name']}} 
+                </div>
+                
+                <!-- add a button in the middle of the block -->
+                {% if j % 2 == 0 and team == (teams|length -1) %}
+                <div class="button">
+                    <!-- button for each block -->
+                    {% if teams[team][i*2]['eliminated'] != True and teams[team][i*2+1]['eliminated'] != True and session['usertype'] == 'admin' %}
+
+                        <button  class="proceedbutton "onclick="openthing(this.id)" id="{{team}}{{i}}"> progress block <var id= "blocknumber" style="display:none"> {{i+1}} </var> </button>
+                    {% endif %}
+
+                    <!-- variables storing the info of each team within that block so clumsy i will change it after every thing is settled-->
+                    <var id= "{{team}}{{i}}blockteam1" style="display:none"> {{teams[team][i*2]['name']}} </var> 
+                    <var id= "{{team}}{{i}}blockteam2" style="display:none"> {{teams[team][i*2+1]['name']}} </var>
+                    <var id="{{team}}{{i}}team1sid" style="display:none" > {{teams[team][i*2]['sid']}} </var>
+                    <var id="{{team}}{{i}}team2sid" style="display:none" > {{teams[team][i*2+1]['sid']}} </var>
+                    <var id ="{{team}}{{i}}team1tid" style="display:none" > {{teams[team][i*2]['tid']}} </var>
+                    <var id ="{{team}}{{i}}team2tid" style="display:none"> {{teams[team][i*2+1]['tid']}} </var>
+                </div>
+
+                
+                
+                {% endif %}
+            {% endfor %}
+            </div>
+            {%if i!= (teams[team]|length //2)-1 and team != 0 %}
+                <div class="sepdiv{{team}}"></div>
+            {% endif %}
+        {% endfor %}
+        </div>
+        
+    {% endfor %}
+        
+    </div>
+{% endmacro %}

@@ -1,0 +1,1210 @@
+@font-face {
+    font-family: "undertale";
+    src: url(DeterminationMonoWeb.woff);
+}
+
+
+h1 {
+    color: blue;
+    font-size:50px; 
+    color:white }
+/* navigation bar */    
+li {    
+        position:relative;
+        z-index: 1;
+        display: block;
+        float: left;
+
+    }
+ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    width:100%;
+    overflow:hidden;
+    display: block;
+    }
+li:nth-last-child(2){
+    float:right;
+    position:relative;
+
+}
+li:nth-last-child(1){
+    float:right;
+    position:relative;
+
+}
+
+li a:hover {
+    color:rgb(48, 244, 3)
+
+  }
+
+a {
+        display: block;
+        padding: 10px;
+        color: white;
+        font-size:40px;
+        text-decoration:none;
+        text-align:center;
+
+    }
+
+
+h1 {
+    font-size: 10em;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+h2 {
+    text-align:center;
+}
+/* body */
+body {
+        background-color: black;
+        margin:0;
+        font-family: 'undertale';
+        color:white;
+    }
+
+/* home page */
+.debator1{
+    display:flex;
+    position: absolute;
+    bottom:0;
+    left:0;
+    transform:translateX(-18%);
+    transform:translateY(12%);
+    width:1100px;
+    height:660px;
+    overflow:hidden;
+
+}
+.debator2{
+    position: absolute;
+    bottom:0;
+    right:0;
+    transform:translateX(6%);
+    width:1000px;
+    height:585px;
+    overflow:hidden;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.large{
+    font-size:50px;
+}
+
+.error {
+    color: red;
+    display: block;
+    text-align:center;
+    font-size:30px
+}   
+/* application */
+.team2field {
+    width:500px;
+    height:50px;
+    border-style:solid;
+    border-color:goldenrod;
+    background-color: rgb(110, 4, 15);
+    font-size: 25px;
+    font-family: 'undertale';
+}
+.checkboxes{
+    height: 50px;
+    width: 50px;
+}
+input::placeholder {
+    font-family:'undertale';
+    text-align:center;
+    font-size:30px;
+    color:rgb(179, 179, 179);
+}
+
+.chart {
+    position: relative;
+    width: 10000px;
+    height: 10000px;
+    background-color: #bd6d6d;
+}
+
+.block {
+    display:flex;
+    position:relative;
+    width: 250px;
+    height: 150px;
+    border-style: solid;
+    border-color: chocolate;
+    background-color: white;
+    font-size:15px;
+    align-items:center;
+    align-content:center;
+    flex-direction: column;
+}
+.block{
+    margin: 20px 0;
+}
+.button {
+    position: relative;
+    left: 250px;
+    height:20px;
+}
+#chartfunc{
+    position: relative;
+    top:30px;
+    margin:auto;
+    display:flex;
+    justify-content: center;
+    height:fit-content;
+    flex-direction: row;
+    width:fit-content;
+}
+
+#pdfbutton {
+    background-image: url(pdf.png);
+    background-position: 50% 50%;
+    width:100px;
+    height:117px;
+    position:relative;
+    top:4px;
+}
+#pdfbutton:hover
+ {
+    background-image: url(pdfdown.png);
+}
+
+.proceedbutton{
+    
+    background-color:black;
+    color:white;
+    height: 50px;
+    width: 200px;
+    font-size: 20px;
+    font-family: 'undertale';
+    border-style:solid;
+    border-color:goldenrod;
+}
+
+.proceedbutton:hover {
+    color:rgb(48, 244, 3)
+}
+
+
+
+.popupform{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background-color: grey;
+    color:black;
+    z-index: 1;
+    font-size:30px;
+}
+
+
+/*   chart page    */
+#colorbtns{
+    position: relative;
+    display:flex;
+    gap:10px;
+    top:20px;
+    right:20%;
+    justify-content: center;
+}
+.chartpage {
+    position:relative;
+    display:flex;
+    flex-direction: 'row';
+    margin: auto;
+    overflow:auto;
+    border-style:solid;
+    border-color:gold;
+}
+.rounds {
+    position:relative;
+    margin-left:20px;
+    font-family: 'undertale';
+    color:black;
+    display:flex;
+    flex-direction: column;
+    justify-content:space-evenly;
+
+
+}
+
+.smallblock{
+    position:relative;
+    width:200px;
+    border-style: solid;
+    border-color:grey;
+    text-align: center;
+    margin:auto;
+}
+#team1{
+    display:flex;
+    margin:auto;
+    width:400px;
+    border-style:solid;
+    border-color: goldenrod;
+    background-color: lightcoral;
+    justify-content: center
+
+}
+
+#team2{
+    display:flex;
+    margin: auto;
+    width:400px;
+    border-style:solid;
+    border-color: goldenrod;
+    background-color: lightsteelblue;
+    justify-content: center
+
+}
+
+.buttons{
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    color:white;
+    height: 50px;
+    width: 200px;
+    font-size: 20px;
+    font-family: 'undertale';
+    
+}
+#popupsubmit:hover{
+    color:rgb(48, 244, 3)
+}
+
+#popupback:hover{
+    color:red
+}
+#resetbtn{
+    position:relative;
+
+
+}
+#resetbtn:hover {
+    color:red
+}
+
+.textbox{
+    position:relative;
+    margin:auto;
+    right:40px;
+    max-width: 1000px;
+
+}
+.message {
+    position:absolute;
+    top:60px;
+    left: 320px;
+    font-size:1.8rem;
+    
+}
+
+
+.field {
+    width:500px;
+    height:50px;
+    border-style:solid;
+    border-color:goldenrod;
+    background-color:grey;
+    font-size: 25px;
+    font-family: 'undertale';
+
+
+}
+.submit{
+    background-color: grey;
+    border-style:solid;
+    border-color:goldenrod;
+    color:white;
+    height: 50px;
+    width: 200px;
+    font-size: 35px;
+    font-family: 'undertale';
+}
+
+.submit:hover{
+    color:rgb(48, 244, 3)
+}
+
+/* error flashes */
+#error_container {
+    display:flex;
+    background-color: rgb(240, 89, 94);
+    border-style:solid;
+    border-color:red;
+    color:black;
+    height:60px;
+    width:50%;
+    max-height: 60px;
+
+    font-family: 'undertale';
+    position:relative;
+    margin:auto;
+    justify-items: center;
+}
+#errormsg{
+    display: block;
+    font-size: 25px;
+    float:left;
+}
+#flashbtn {
+    
+    position:absolute;
+    display: block;
+    margin-left: auto;
+    top:5px;
+    border-style:solid;
+    border-color:rgb(240, 89, 94);
+    background-color:rgb(240, 89, 94);;
+    color:black;
+    font-family:'undertale';
+    font-size:40px;
+    height:45px;
+    width:50px;
+    right:20px;
+}
+
+#flashbtn:hover{
+    color:rgb(110, 4, 15);
+}
+/* choose login */
+#stubtn{
+    
+    position:relative;
+    margin:auto;
+    top:150px;
+    width:250px;
+    height:50px;
+    border-style:solid;
+    border-color:goldenrod;
+    background-color:grey;
+    font-size: 25px;
+    font-family: 'undertale';
+}
+#stubtn:hover{
+    background-color:brown;
+}
+#gstbtn:hover{
+    background-color:steelblue;
+}
+#gstbtn{
+    position:relative;
+    margin:auto;
+    top:260px;
+    width:250px;
+    height:50px;
+    border-style:solid;
+    border-color:goldenrod;
+    background-color:grey;
+    font-size: 25px;
+    font-family: 'undertale';
+}
+
+#loginh3{
+    position:relative;
+    text-align: center;
+    top:130px;
+    color:cadetblue;
+    font-size:30px;
+}
+
+#loginh4{
+    position:relative;
+    text-align: center;
+    top:140px;
+    color:cadetblue;
+    font-size:20px;
+}
+
+#loginh5{
+    position:relative;
+    text-align:center;
+    top:250px;
+    color:cadetblue;
+    font-size:30px;
+}
+/* submitted page */
+#info_container{
+    display:flex;
+    position:relative;
+    top:30px;
+    margin:auto;
+    justify-content: center;
+    gap:10px;
+    width:1500px;
+    height:auto;
+    flex-direction: row;
+}
+
+#id_container{
+    display: block;
+    Position:relative;
+    align-items:center;
+    width:500px;
+    height:auto;
+    flex-direction: column;   
+}
+
+#pw_container{
+    display: block;
+    Position:relative;
+    align-items:center;
+    width:500px;
+    height:auto;
+    flex-direction: column;
+}
+.id{
+    text-align:center;
+    border-style:solid;
+    border-color:goldenrod;
+    width:250px;
+    font-size:40px;}
+.pw{
+    text-align:center;
+    border-style:solid;
+    border-color:goldenrod;
+    width:400px;
+    font-size:40px;
+}
+
+#submitmsg1{
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    text-align: center;
+    font-size:50px;
+    color:burlywood
+}
+#submitmsg2{
+    font-size:30px;
+    color:chocolate
+}
+
+
+/*  profile  */
+#profile{
+    display:flex;
+    position:fixed;
+    height: 70vh;
+    width: 100%;
+    bottom:0;
+    flex-shrink: 1;
+    
+}
+
+#profiledisplay {
+    position:relative;
+    display:block;
+    border-style:solid;
+    border-color:white;
+    border-width:10px;
+    bottom:0;
+    flex-grow: 1.4;
+    flex-shrink: 1;
+    flex-direction: row;
+    overflow:auto;
+    z-index:2;
+}
+
+#profilechoose {
+    display:flex;
+    border-style:solid;
+    border-color:white;
+    border-width:10px;
+    flex-grow: 1;
+    flex-direction:column;
+    pointer-events: none;
+}
+
+.button_container{
+    position:relative;
+    pointer-events: none;
+    white-space: nowrap;
+}
+.profilebtn{
+    display:inline-block;
+    position:relative;
+    right:30px;
+    width:30%;
+    height:70%;
+    border:none;
+    background-color:black;
+    color:white;
+    font-family:'undertale';
+    font-size:3rem;
+    top:5px;
+    padding-left:50px;
+    padding-top:20px;
+    text-align:left;
+    pointer-events: auto;
+
+}
+.heartbtn{
+    position:relative;
+    top:12px;
+    left:10px;
+    padding-top:40px;
+    padding-left:20px;
+    height:35px;
+    width:35px;
+    visibility: hidden;
+    z-index:1;
+    pointer-events: none;
+}
+.profilebtn:hover{
+    color:rgb(48, 244, 3)
+}
+.logout{
+    position:relative;
+    width:400px;
+    bottom:60px;
+}
+#btn3{
+    left:35px;
+    width:400px;
+}
+
+#btn3:hover{
+    color:red
+}
+
+/* admin functions */
+.dbemptytext{
+    font-size:40px;
+}
+#editconfirm{
+    display:none;
+    position:relative;
+    right:420px;
+    z-index:1;
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    border-width: 4px;
+    color:white;
+    height: 60px;
+    width: 200px;
+    font-size: 43px;
+    font-family: 'undertale';
+    justify-content: center;
+}
+#editconfirm:hover{
+    color:green
+}
+.insertsubmit{
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    border-width:4px;
+    color:white;
+    height: 50px;
+    width: 200px;
+    font-size: 30px;
+    font-family: 'undertale';
+}
+.insertsubmit:hover{
+    color:rgb(48, 244, 3)
+}
+.insertfield {
+    width:500px;
+    height:50px;
+    border-style:solid;
+    border-color:black;
+    border-width:7px;
+    background-color:rgb(51, 45, 45);
+    font-size: 25px;
+    font-family: 'undertale';
+}
+.team2member{
+        width:500px;
+        height:50px;
+        border-style:solid;
+        border-color:black;
+        border-width:7px;
+        background-color: rgb(110, 4, 15);
+        font-size: 25px;
+        font-family: 'undertale';
+}
+.insertnumberfield {
+    width:100px;
+    height:50px;
+    border-style:solid;
+    border-color:black;
+    border-width:7px;
+    background-color:rgb(51, 45, 45);
+    font-size: 25px;
+    font-family: 'undertale';
+
+
+}
+
+#chart2024_container{
+    display:none;
+}
+#insertteam_container{
+    display:none;
+}
+#insertschool_container{
+    display:none;
+}
+#insert2023_container{
+    display:none;
+}
+#insertnonstudent_container{
+    display:none;
+}
+#updatechart_container{
+    display:none;
+}
+#updateuser_container{
+    display:none;
+}
+#updatestudent_container{
+    display:none;
+}
+#update2023_container{
+    display:none;
+}
+#updateschool_container{
+    display:none;
+}
+#endapplication_container{
+    display:none;
+}
+
+#admininfo_container{
+    display:flex;
+    position:relative;
+    top:100px;
+    right:300px;
+    margin:auto;
+    justify-content: center;
+    gap:10px;
+    width:1500px;
+    height:auto;
+    flex-direction: row;
+}
+
+.insertform_outer{
+    display:flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center; 
+    position: fixed;
+    width:1000px;
+    height:1000px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-color:rgb(130, 122, 135);
+
+}
+.insertform_inner{
+    position:fixed;
+    width:900px;
+    height:900px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-color:grey;
+    align-items: center; 
+    overflow:auto; 
+    overflow-x: hidden
+}
+
+#adminpwtext{
+    text-align: center;
+    font-size: 55px;
+
+}   
+    
+#functions_container{
+    display:none;
+    position:relative;
+    right:150px;
+    top:25px;
+    width:400px;
+    margin:auto;
+    align-content:center;
+}
+
+.dbbtn{
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    border-width:10px;
+    color:white;
+    height: 100px;
+    width: 400px;
+    font-size: 40px;
+    font-family: 'undertale';
+}
+
+.dbbtn:hover{
+    color:rgb(48, 244, 3)
+}
+
+#editdb_container{
+    display:none;
+}
+
+
+.dblargernumberfield{
+    width:90px;
+    height:80px;
+    font-size:30px;
+    text-align: center;
+    position:relative;
+    border-style:solid;
+    border-color:aqua
+
+}
+.dbnamefield{
+    width:250px;
+    height:80px;
+    overflow:auto;
+    overflow-y: hidden;
+    border-style:solid;
+    border-color:aqua;
+    white-space: nowrap;
+    font-size:50px;
+}
+.dbnumberfield{
+    width:70px;
+    height:80px;
+    font-size:30px;
+    text-align: center;
+    border-style:solid;
+    border-color:aqua;
+    
+}
+#chart2023text{
+    padding-left:5px;
+}
+/*  chart2023   */
+#chart2023_container{
+    display:none;
+}
+#chart2023_edit{
+    display:flex;
+    width:900px;
+    justify-content: center;
+    margin: auto;
+    gap:40px;
+    padding-top: 20px;
+    flex-direction: row;
+}
+
+#schools_container{
+    display:none;
+}
+.editbox{
+    display:flex;
+    width:900px;
+    justify-content: center;
+    margin: auto;
+    gap:40px;
+    padding-top: 20px;
+    flex-direction: row;
+}
+#students_container{
+    display:none;
+}
+
+#nonstudents_container{
+    display:none;
+}
+
+#chart2023text{
+    width:74px;
+}
+#editchoosedb_container{
+    display:none;
+}
+
+.editdbtext{
+    margin: auto;
+    text-align:center;
+    font-size:30px;
+    width:fit-content;
+}
+.delbtntext{
+    
+    text-align:center;
+    font-size:30px;
+    width:74px;
+}
+#field_delbtn_container{
+    width:600px;
+}
+.field_delbtn{
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width:500px;
+}
+
+.pfnametext{
+    padding-left: 80px;
+    font-size:30px;
+}
+
+.pfsidtext{
+    padding-left: 220px;
+    font-size:30px;
+}
+
+.id_container{
+    left:100px;
+}
+.pftidtext{
+    padding-left: 100px;
+    font-size:30px;
+}
+
+
+.editnametext{
+    padding-left: 242px;
+    font-size:30px;
+}
+
+.editsidtext{
+    padding-left: 160px;
+    font-size:30px;
+}
+
+.edittidtext{
+    padding-left: 58px;
+    font-size:30px;
+}
+
+#removeform{
+    position:relative;
+    z-index:1;
+    left:500px;
+    pointer-events:all;
+}
+
+.functionsbtn{
+    position:relative;
+    left:150px;
+    background-color:darkslategray;
+    border-style:solid;
+    border-color:rgb(26, 132, 194);
+    color:white;
+    height: 100px;
+    width: 400px;
+    font-size: 40px;
+    border-width: 6px;
+    font-family: 'undertale';   
+}
+.functionsbtn:hover{
+    color:rgb(48, 244, 3)
+}
+.functionsbtndiv{
+    padding-top: 40px;
+}
+#applicationform{
+    height:500px;
+
+}
+.applybtn{
+    position:relative;
+    background-color:rgb(50, 160, 118);
+    border-style:solid;
+    border-color:rgb(19, 240, 12);
+    color:white;
+    height: 100px;
+    width: 400px;
+    font-size: 40px;
+    border-width: 6px;
+    font-family: 'undertale';   
+    top:20%;
+}
+.applybtn:hover{
+    color:chartreuse
+}
+
+.insertclosebtn{
+    position:absolute;
+    display: block;
+    margin-left: auto;
+    top:9px;
+    border-style:solid;
+    border-color:rgb(240, 89, 94);
+    background-color:rgb(240, 89, 94);;
+    color:black;
+    font-family:'undertale';
+    font-size:40px;
+    height:45px;
+    width:50px;
+    right:9px;
+    z-index:3;
+}
+button:active{
+    background-color:rgb(110, 4, 15);
+    border-color:rgb(110, 4, 15);
+  }
+#insertchoosedb_container{
+    display:none;
+}
+.insertchoosebtn{
+    
+    position:relative;
+    left:500px;
+    background-color:black;
+    border-style:solid;
+    border-color:goldenrod;
+    color:white;
+    height: 100px;
+    width: 400px;
+    font-size: 40px;
+    border-width: 6px;
+    font-family: 'undertale';
+}
+.insertchoosebtn:hover{
+    color:rgb(48, 244, 3)
+}
+.insertchoosebtndiv{
+    padding-top:40px;
+}
+.editbtn{
+    position:relative;
+    left:20px;
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    color:rgb(156, 44, 55);
+    height: 50px;
+    width: 200px;
+    font-size: 30px;
+    border-width: 3px;
+    font-family: 'undertale';  
+}
+.editbtn:hover{
+    background-color:rgb(64, 54, 55);
+}
+
+.updatechart{
+    position:relative;
+    left:20px;
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    color:rgb(48, 244, 3);
+    height: 50px;
+    width: 200px;
+    font-size: 30px;
+    border-width: 3px;
+    font-family: 'undertale';   
+}
+.updatechart:hover{
+    background-color:rgb(64, 54, 55);
+}
+.updateuser{
+    position:relative;
+    left:20px;
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    color:rgb(48, 244, 3);
+    height: 50px;
+    width: 200px;
+    font-size: 30px;
+    border-width: 3px;
+    font-family: 'undertale';   
+}
+.updateuser:hover{
+    background-color:rgb(64, 54, 55);
+}
+.updateschool{
+    position:relative;
+    left:20px;
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    color:rgb(48, 244, 3);
+    height: 50px;
+    width: 200px;
+    font-size: 30px;
+    border-width: 3px;
+    font-family: 'undertale';   
+}
+.updateschool:hover{
+    background-color:rgb(64, 54, 55);
+}
+.updatestudent{
+    position:relative;
+    left:20px;
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    color:rgb(48, 244, 3);
+    height: 50px;
+    width: 200px;
+    font-size: 30px;
+    border-width: 3px;
+    font-family: 'undertale';   
+}
+.updatestudent:hover{
+    background-color:rgb(64, 54, 55);
+}
+.update2023{
+    position:relative;
+    left:20px;
+    background-color: black;
+    border-style:solid;
+    border-color:goldenrod;
+    color:rgb(48, 244, 3);
+    height: 50px;
+    width: 200px;
+    font-size: 30px;
+    border-width: 3px;
+    font-family: 'undertale';   
+}
+.update2023:hover{
+    background-color:rgb(64, 54, 55);
+}
+
+/* team memeber container */
+#team_container{
+    display:none;
+}
+
+#teaminfo_container{
+    display:flex;
+    justify-content: center;
+}
+#member_container{
+    position:relative;
+
+    border-width: 2px;
+    top: 20px;
+    height:20px;
+}
+
+#number_container{
+    position:relative;
+
+    border-width: 2px;
+    top: 20px;
+    right:30px;
+}
+
+.members{
+    font-size:54px;
+    border-style:solid;
+    border-color:goldenrod
+}
+
+.numbers{
+    font-size:70px;
+    border-style:solid;
+    border-color:goldenrod
+}
+
+#teamtext{
+    display:flex;
+    justify-content: center;
+    font-size:80px;
+}
+#id_container{
+    position:relative;
+    left:100px;
+    display:inline-block;
+}
+.studentinfo{
+    font-size: 55px;
+}
+
+/* chartselect */
+.chartbtn{
+    
+    position:relative;
+    margin:auto;
+    top:150px;
+    width:400px;
+    height:100px;
+    border-style:solid;
+    border-color:goldenrod;
+    border-width:5px;
+    background-color:grey;
+    font-size: 40px;
+    font-family: 'undertale';
+}
+.chartbtn:hover{
+    color:rgb(48, 244, 3)
+}
+
+/* leaderboard2024 */
+.lb_container{
+    display:flex;
+    position:relative;
+    width:fit-content;
+    margin:auto;
+    justify-content:center;
+    top:70px;
+
+}
+.lbname_container{
+    font-size:50px;
+}
+.lbno_container{
+    font-size:50px;
+}
+.lblargerno_container{
+    width:fit-content;
+    text-align: center;
+    font-size:50px;
+}
+.lbno{
+    height:60px;
+    border-style:solid;
+    border-color:#bd6d6d;
+    border-right-style:none;
+    border-left-style:none;
+}
+.lbname{
+    height:60px;
+    border-style:solid;
+    border-color:#bd6d6d;
+    border-right-style:none;
+    border-left-style:none;
+}
+#lbrank{
+    width:90px;
+    border-left-style:solid;
+}
+
+#lbtid{
+    white-space:nowrap;
+    width:240px;
+    text-align: center;
+}
+#lblosed{
+    width:300px;
+    border-right-style:solid;
+}
+.lbtext{
+    color:gold;
+    font-size:100px;
+    text-align: center;
+    
+}

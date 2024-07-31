@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}
+  Application
+{% endblock %}
+
+{% block content %}
+<!-- flash error -->
+<script>
+  function closeflash()
+  {
+    document.querySelector('#error_container').style.display="none"; 
+    console.log("hi")
+  }
+</script>
+
+{% if flash %}
+  <div id="error_container"> 
+    <div id ="errormsg">
+      {{flash}}
+    </div>
+  <button id='flashbtn' onclick="closeflash()"> X </button>
+  </div> <br><br><br>
+{% endif %}
+
+{% if session['applyopen'] == True %}
+  <!-- javascript for disabling the form for team2-->
+  <script>
+    function disable(){ //disable team two input if checkbox is not ticked
+      clicked = document.getElementById('team2').checked;  
+      team2s = document.getElementsByClassName('team2field')
+      for (var i = 0; i < team2s.length; i++){
+          team2s[i].disabled = !clicked;
+          if (clicked == true){
+              team2s[i].style.backgroundColor = "grey";
+          }else{
+              team2s[i].style.backgroundColor = "rgb(110, 4, 15)";
+          }
+
+      }
+      
+  }
+  </script>
+  <form method="POST" action="" style="text-align:center">
+    {{ form.csrf_token }}  
+    
+      <!-- school name -->
+      {{ form.name(class= 'field' , placeholder="School Name") }} <br> <br>
+
+      {{ form.sid(class= 'field' , placeholder="School Code")}} <br> <br>
+
+      <!-- team one participants-->
+    <b class= 'large' >TEAM 1</b> <br> <br>
+
+      {{ form.t1participant1( class= 'field' ,placeholder="participant1") }} <br> <br>
+
+      {{ form.t1participant2(class= 'field' ,placeholder="participant2") }} <br> <br>
+    
+      {{ form.t1participant3(class= 'field' ,placeholder="participant3") }} <br> <br>
+    
+      {{ form.t1participant4(class= 'field' ,placeholder="participant4") }} <br> <br>
+
+      <!--checkbox for checking do the user have team two-->
+
+      <b class= 'large'>TEAM 2</b> <br><br><br>
+
+      {{ form.team2(onclick="disable()", class='checkboxes' , checked = false)}} <br> <br> <br>
+
+      <!-- team two particiapnts-->
+
+      {{ form.t2participant1(class="team2field" , placeholder="participant1") }} <br> <br>
+
+      {{ form.t2participant2(class="team2field" , placeholder="participant2") }} <br> <br>
+  
+      {{ form.t2participant3(class="team2field" , placeholder="participant3") }} <br> <br>
+
+      {{ form.t2participant4(class="team2field" , placeholder="participant4") }} <br> <br>
+
+      <input type="submit" value="SUBMIT" class= 'submit' > <br> <br> <br>
+ 
+  </form>
+
+{% else %}
+
+  <div class="textbox">
+
+    <img src="{{ url_for('static', filename='message.jpg') }}" width="1100" height="300"> 
+    <div class="message"> Application is closed! </div>
+    
+  </div>
+{% endif %}
+
+{% endblock %}

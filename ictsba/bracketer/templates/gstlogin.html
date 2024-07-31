@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+  Login
+{% endblock %}
+
+{% block content %}
+<script>
+  function closeflash()
+  {
+    document.querySelector('#error_container').style.display="none"; 
+    console.log("hi")
+  }
+</script>
+
+{% if flash %}
+  <div id="error_container"> 
+    <div id ="errormsg">
+      {{flash}}
+    </div>
+  <button id='flashbtn' onclick="closeflash()"> X </button>
+  </div> <br><br><br>
+{% endif %}
+{% if flash == 'log in sucessfully!'%}
+  <script> 
+    document.getElementById("error_container").style.backgroundColor ="lightgreen"; 
+    document.getElementById("error_container").style.borderColor = "green";
+    document.getElementById("flashbtn").style.borderColor="lightgreen";
+    document.getElementById("flashbtn").style.backgroundColor="lightgreen";
+  </script>
+{% endif %}
+<form method="POST" action="/guest" style="text-align:center">
+    {{ form.csrf_token }} 
+    {{form.username(class="field" , placeholder = 'Username')}} <br><br>
+    {{form.password(class="field" , placeholder ='Password')}}<br><br>
+    {{form.submit(class="submit" )}}
+</form>
+
+{% endblock %}

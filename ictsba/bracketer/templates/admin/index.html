@@ -1,0 +1,9 @@
+{% extends 'admin/master.html' %}
+{% block head_css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" type="text/css" />
+{% endblock %}
+{% block body %}
+
+<p> Hello world</p>
+{% endblock %}

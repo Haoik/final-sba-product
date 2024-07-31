@@ -1,0 +1,599 @@
+{% macro adminedit() %}
+        <div class='displaymsg' id="editchoosedb_container"> 
+            <!-- each button link to a route that load that database-->
+            <div>
+                <a href="/processchart2024"><button class="dbbtn" id="chart2024" onclick="display(this.id)"> chart2024 </button></a>
+            </div>
+
+            <div>
+                <a href="/processnonstudents"><button class="dbbtn" id ="nonstudents" onclick="display(this.id)"> non students </button> </a>
+                <a href="/processstudents"><button class="dbbtn" id ="students" onclick="display(this.id)"> students </button> </a>
+            </div>
+
+            <div>
+                <a href="/processchart2023"><button class="dbbtn" id="chart2023" onclick="display(this.id)"> chart2023 </button> </a>
+                <a href="/processschools"><button class= "dbbtn" id="schools" onclick="display(this.id)"> schools </button></a>
+            </div>
+        </div>
+
+
+        <!-- editdb-->
+            <div class='displaymsg' id="chart2024_container">
+                <!-- chart2024 no problem -->
+                {% if session['dbinfo']|length != 0 %}
+                    <div class="editbox">
+                        <div id="name_container">
+                            <div class="editdbtext"> name </div>
+                            {% for i in range(session['dbinfo']|length) %}              
+                                <div class= "dbnamefield" id="{{session['dbinfo'][i]['sid']}}name">{{ session['dbinfo'][i]['name'] }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="id_container">
+                            <div class="editdbtext"> sid </div>
+                            {% for i in range(session['dbinfo']|length) %}              
+                                <div class="dblargernumberfield" id="{{session['dbinfo'][i]['sid']}}sid"> {{session['dbinfo'][i]['sid'] }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div id="tid_container">
+                            <div class="editdbtext"> tid </div>
+                            {% for i in range(session['dbinfo']|length) %}              
+                                <div class="dbnumberfield" id="{{session['dbinfo'][i]['sid']}}sid"> {{session['dbinfo'][i]['tid'] }}</div>
+                            {% endfor %}
+                        </div>
+
+
+                        <div id="seed_container">
+                            <div class="editdbtext"> seed </div>
+                            {% for i in range(session['dbinfo']|length) %}              
+                                <div class= "dbnumberfield" id="{{session['dbinfo'][i]['seed']}}seed">{{ session['dbinfo'][i]['seed'] }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div id="won_container">
+                            <div class="editdbtext"> won </div>
+                            {% for i in range(session['dbinfo']|length) %}              
+                                <div class="dbnumberfield" id="{{session['dbinfo'][i]['sid']}}won"> {{session['dbinfo'][i]['won'] }}</div>
+                            {% endfor %}
+                        </div>
+                        <div id="field_delbtn_container">
+                            <div class="delbtntext" id="chart2023text"> losed? </div>
+                            {% for i in range(session['dbinfo']|length) %} 
+                                <div class="field_delbtn">             
+                                    <div class="dblargernumberfield" id="{{session['dbinfo'][i]['sid']}}lose"> {{session['dbinfo'][i]['losed'] }}</div>
+                                    <var id="varchart2024editbtn{{i}}" style="display:none"> { "sid" : "{{session['dbinfo'][i]['sid'] }}", "tid" : {{session['dbinfo'][i]['tid'] }} } </var>
+
+                                    <div><button class= "editbtn" id ="chart2024editbtn{{i}}" onclick= "adddelete(this.id)"> delete </button></div>
+                                    <div><button class ="updatechart" id ="updatechartbtn{{i}}" onclick = "popupdate(this.id,this.className)">update</button></div>
+                                    <var id="varupdatechartbtn{{i}}" style="display:none"> {"chartname":"{{ session['dbinfo'][i]['name'] }}", "chartsid": "{{session['dbinfo'][i]['sid'] }}", "charttid": {{session['dbinfo'][i]['tid'] }}, "chartseed": {{ session['dbinfo'][i]['seed'] }}, "chartlosed": "{{ session['dbinfo'][i]['losed'] }}"} </var>                                       
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                
+                {% else %}
+                    <div class="dbemptytext"> This table is empty! </div>
+                {% endif %}
+            </div>
+
+
+
+
+        <div class='displaymsg' id="nonstudents_container">
+            <!-- nonstudents no problem -->
+            {% if session['dbinfo']|length != 0 %}
+                <div class="editbox">
+                    <div class="id_container">
+                        <div class="editdbtext"> id </div>
+                        {% for i in range(session['dbinfo']|length) %}            
+                            <div class="dbnumberfield" id="{{session['dbinfo'][i]['sid']}}id"> {{session['dbinfo'][i]['id'] }}</div>        
+                        {% endfor %}
+                    </div>
+
+                    <div id="name_container">
+                        <div class="editdbtext"> name </div>
+                        {% for i in range(session['dbinfo']|length) %}              
+                            <div class= "dbnamefield" id="{{session['dbinfo'][i]['id']}}user">{{ session['dbinfo'][i]['user'] }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="email_container">
+                        <div class="editdbtext"> email </div>
+                        {% for i in range(session['dbinfo']|length) %}              
+                            <div class= "dbnamefield" id="{{session['dbinfo'][i]['id']}}email">{{ session['dbinfo'][i]['email'] }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    
+                    <div id="field_delbtn_container">
+                        <div class="delbtntext" > isadmin </div>
+
+                        {% for i in range(session['dbinfo']|length) %}   
+                            <div class="field_delbtn">            
+                                <div class="dblargernumberfield" id="{{session['dbinfo'][i]['sid']}}admin"> {{session['dbinfo'][i]['admin'] }}</div>  
+                                <var id="varnonstudentseditbtn{{i}}" style="display:none"> { "id" : {{session['dbinfo'][i]['id'] }} } </var>
+                                {% if session['dbinfo'][i]['admin'] != True %}
+                                <div><button class= "editbtn" id ="nonstudentseditbtn{{i}}" onclick= "adddelete(this.id)"> delete </button></div>
+                                {% endif %}
+                                <div><button class ="updateuser" id ="updateuserbtn{{i}}" onclick = "popupdate(this.id,this.className)">update</button></div>
+                                <var id="varupdateuserbtn{{i}}" style="display:none"> {"userid":{{ session['dbinfo'][i]['id'] }}, "username": "{{session['dbinfo'][i]['user']}}","useremail":"{{session['dbinfo'][i]['email']}}" ,"useradmin": "{{session['dbinfo'][i]['admin']}}"  }</var>                                       
+                            </div>    
+                        {% endfor %}
+                    </div>
+                </div>
+            
+            {% else %}
+            <div class="dbemptytext"> This table is empty! </div>
+            {% endif %}
+        </div>
+
+
+        <div class='displaymsg' id="students_container">
+            <!-- students no problem-->
+            {% if session['dbinfo']|length != 0 %}
+                <div class="editbox">
+                    <div id="stuid_container">
+                        <div class="editdbtext"> STUID </div>
+                        {% for i in range(session['dbinfo']|length) %}            
+                            <div class="dbnumberfield" id="{{session['dbinfo'][i]['sid']}}stuid"> {{session['dbinfo'][i]['studentid'] }}</div>    
+                            
+                        {% endfor %}
+                    </div>
+                    <div id="sid_container">
+                        <div class="editdbtext"> SID  </div>
+                        {% for i in range(session['dbinfo']|length) %}
+                                        
+                            <div class= "dblargernumberfield" id="{{session['dbinfo'][i]['id']}}sid">{{ session['dbinfo'][i]['sid'] }}</div>
+                        {% endfor %}
+                    </div>
+                    <div id="tid_container">
+                        <div class="editdbtext"> TID  </div>
+                        {% for i in range(session['dbinfo']|length) %}           
+                            <div class= "dbnumberfield" id="{{session['dbinfo'][i]['id']}}tid">{{ session['dbinfo'][i]['tid'] }}</div>
+                        {% endfor %}
+                    </div>
+                    <div id="field_delbtn_container">
+                        <div class="delbtntext"> name </div>
+
+                        {% for i in range(session['dbinfo']|length) %}   
+                            <div class="field_delbtn">            
+                                <div class= "dbnamefield" id="{{session['dbinfo'][i]['id']}}studentname">{{ session['dbinfo'][i]['studentname'] }}</div>
+                                <var id="varstudentseditbtn{{i}}" style="display:none"> { "studentid" : {{session['dbinfo'][i]['studentid'] }} } </var>
+                                <div><button class= "editbtn" id ="studentseditbtn{{i}}" onclick= "adddelete(this.id)"> delete </button></div>
+                                <div><button class ="updatestudent" id ="updatestudentbtn{{i}}" onclick = "popupdate(this.id,this.className)">update</button></div>
+                                <var id="varupdatestudentbtn{{i}}" style="display:none"> { "studentid": {{session['dbinfo'][i]['studentid'] }} , "studentname": "{{ session['dbinfo'][i]['studentname'] }}" } </var>
+                            </div>    
+                        {% endfor %}
+                    </div>
+                </div>
+            
+            {% else %}
+                <div class="dbemptytext"> This table is empty! </div>
+            {% endif %}
+        </div>
+
+        <div class='displaymsg' id="schools_container">
+            <!-- schools -->
+            {% if session['dbinfo']|length != 0 %}
+                <div class="editbox">
+                    <div id="name_container">
+                        <div class="editdbtext"> name </div>
+                        {% for i in range(session['dbinfo']|length) %}              
+                            <div class= "dbnamefield" id="{{session['dbinfo'][i]['sid']}}name">{{ session['dbinfo'][i]['name'] }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="field_delbtn_container">
+                        <div class="delbtntext"> sid </div>
+
+                        {% for i in range(session['dbinfo']|length) %}   
+                            <div class="field_delbtn">            
+                                <div class="dblargernumberfield" id="{{session['dbinfo'][i]['sid']}}sid"> {{session['dbinfo'][i]['sid'] }}</div>
+                                <var id="varschoolseditbtn{{i}}" style="display:none"> { "sid" : {{session['dbinfo'][i]['sid'] }} } </var>
+                                <div><button class= "editbtn" id ="schoolseditbtn{{i}}" onclick= "adddelete(this.id)"> delete </button></div>
+                                <div><button class ="updateschool" id ="updateschoolbtn{{i}}" onclick = "popupdate(this.id,this.className)">update</button></div>
+                                <var id="varupdateschoolbtn{{i}}" style="display:none"> { "schoolsid": "{{session['dbinfo'][i]['sid'] }}" , "schoolname": "{{ session['dbinfo'][i]['name'] }}" } </var> 
+                            </div>    
+                        {% endfor %}
+                    </div>
+                </div>
+        
+            {% else %}
+                <div class="dbemptytext"> This table is empty! </div>
+            {% endif %}
+        </div>
+
+        <div class='displaymsg' id="chart2023_container">
+            <!-- chart2023 no problem -->
+            {% if session['dbinfo']|length != 0 %}
+                <div class="editbox">
+                    <div id="name_container">
+                        <div class="editdbtext"> name </div>
+                        {% for i in range(session['dbinfo']|length) %}              
+                            <div class= "dbnamefield" id="{{session['dbinfo'][i]['sid']}}name">{{ session['dbinfo'][i]['name'] }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="sid_container">
+                        <div class="editdbtext"> sid </div>
+                        {% for i in range(session['dbinfo']|length) %}              
+                            <div class="dblargernumberfield" id="{{session['dbinfo'][i]['sid']}}sid"> {{session['dbinfo'][i]['sid'] }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="tid_container">
+                        <div class="editdbtext"> tid </div>
+                        {% for i in range(session['dbinfo']|length) %}              
+                            <div class="dbnumberfield" id="{{session['dbinfo'][i]['sid']}}sid"> {{session['dbinfo'][i]['tid'] }}</div>
+                        {% endfor %}
+                    </div>
+
+
+                    <div id="seed_container">
+                        <div class="editdbtext"> seed </div>
+                        {% for i in range(session['dbinfo']|length) %}              
+                            <div class= "dbnumberfield" id="{{session['dbinfo'][i]['seed']}}seed">{{ session['dbinfo'][i]['seed'] }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="won_container">
+                        <div class="editdbtext"> won </div>
+                        {% for i in range(session['dbinfo']|length) %}              
+                            <div class="dbnumberfield" id="{{session['dbinfo'][i]['sid']}}won"> {{session['dbinfo'][i]['won'] }}</div>
+                        {% endfor %}
+                    </div>
+                    <div id="field_delbtn_container">
+                        <div class="delbtntext" id="chart2023text"> losed? </div>
+                        {% for i in range(session['dbinfo']|length) %} 
+                            <div class="field_delbtn">             
+                                <div class="dblargernumberfield" id="{{session['dbinfo'][i]['sid']}}lose"> {{session['dbinfo'][i]['losed'] }}</div>
+                                <var id="varchart2023editbtn{{i}}" style="display:none"> { "sid" : "{{session['dbinfo'][i]['sid'] }}" , "tid" : {{session['dbinfo'][i]['tid'] }} } </var>
+
+                                <div><button class= "editbtn" id ="chart2023editbtn{{i}}" onclick= "adddelete(this.id)"> delete </button></div>
+                                <div><button class ="update2023" id ="update2023btn{{i}}" onclick = "popupdate(this.id,this.className)">update</button></div>
+                                <var id="varupdate2023btn{{i}}" style="display:none"> {"name2023":"{{ session['dbinfo'][i]['name'] }}", "sid2023": "{{session['dbinfo'][i]['sid'] }}", "tid2023": {{session['dbinfo'][i]['tid'] }}, "seed2023": {{ session['dbinfo'][i]['seed'] }}, "won2023":{{session['dbinfo'][i]['won'] }}, "losed2023": "{{ session['dbinfo'][i]['losed'] }}"} </var> 
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            
+            {% else %}
+                <div class="dbemptytext"> This table is empty! </div>
+            {% endif %}
+        </div>
+{% endmacro %}
+
+
+{% macro admininsert(insertteam,insertschools,insert2023,insertnonstudent) %}
+    
+
+
+    <div class='displaymsg'  id="insertteam_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="insertclose(this.id)" id="insertteam"> X </button>
+            <div class="insertform_inner" >
+                <form method="POST" action="/insertteam" style="text-align:center" >
+
+                    {{insertteam.csrf_token }} 
+                    <div style="font-size:60px;"> Insert New Team </div>
+                    <div style="font-size:30px;"> School Name </div>
+                    {{insertteam.name(class="insertfield" ,placeholder= 'school name')}}<br><br><br>
+                    <div style="font-size:30px;"> School Code </div>
+                    {{insertteam.sid(class="insertfield" ,placeholder= 'school code')}}<br><br><br>
+                    <div style="font-size:30px;"> Team One  </div>
+                    {{insertteam.t1participant1(class="insertfield" ,placeholder= 'team one member')}} 
+                    {{insertteam.t1participant2(class="insertfield",placeholder= 'team one member')}}
+                    {{insertteam.t1participant3(class="insertfield",placeholder= 'team one member')}}
+                    {{insertteam.t1participant4(class="insertfield",placeholder= 'team one member')}}<br><br><br>
+                    <div style="font-size:30px;"> Team Two </div>
+                    {{insertteam.team2(onclick="disable()" , class="insertnumberfield" ,id="team2")}}
+                    {{insertteam.t2participant1(class="team2member",disabled=True , placeholder= 'team two member' )}}
+                    {{insertteam.t2participant2(class="team2member", disabled=True, placeholder= 'team two member')}}
+                    {{insertteam.t2participant3(class="team2member",disabled=True , placeholder= 'team two member')}}
+                    {{insertteam.t2participant4(class="team2member", disabled=True , placeholder= 'team two member')}}<br><br><br>
+                    {{insertteam.submit(class="insertsubmit")}}<br><br><br>    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class='displaymsg'  id="insertschool_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="insertclose(this.id)" id="insertschool"> X </button>
+            <div class="insertform_inner" >
+                <form method="POST" action="/insertschool" style="text-align:center" >
+
+                    {{insertschools.csrf_token }} 
+                    <div style="font-size:60px;"> Insert New School </div>
+                    <div style="font-size:30px;"> School Name </div>
+                    {{insertschools.name(class="insertfield")}}<br><br><br>
+                    <div style="font-size:30px;"> SID </div>
+                    {{insertschools.sid(class="insertnumberfield")}}  <br><br><br>  
+                    
+                    {{insertschools.submit(class="insertsubmit")}}<br><br><br>    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class='displaymsg'  id="insert2023_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="insertclose(this.id)" id="insert2023"> X </button>
+            <div class="insertform_inner">
+                <form method="POST" action="/insert2023" style="text-align:center" >
+
+                    {{insert2023.csrf_token }} 
+                    <div style="font-size:60px;"> Insert New School </div>
+                    <div style="font-size:30px;"> School ID </div>
+                    {{insert2023.sid(class="insertnumberfield")}}<br><br><br>
+                    <div style="font-size:30px;"> TID </div>
+                    {{insert2023.tid(class="insertnumberfield")}}  <br><br><br>  
+                    
+                    {{insert2023.submit(class="insertsubmit")}}<br><br><br>    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class='displaymsg'  id="insertnonstudent_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="insertclose(this.id)" id="insertnonstudent"> X </button>
+            <div class="insertform_inner">
+                <form method="POST" action="/insertnonstudent" style="text-align:center" >
+
+                    {{insertnonstudent.csrf_token }} 
+                    <div style="font-size:60px;"> Insert New Non-student account </div>
+                    <div style="font-size:30px;"> Username</div>
+                    {{insertnonstudent.username(class="insertfield")}}<br><br><br>
+                    <div style="font-size:30px;"> Email </div>
+                    {{insertnonstudent.email(class="insertfield")}} <br><br><br>  
+                    <div style="font-size:30px;"> Password </div>
+                    {{insertnonstudent.password(class="insertfield")}} <br><br><br>  
+                    <div style="font-size:30px;"> Admin? </div>
+                    {{insertnonstudent.admin(class="insertnumberfield")}} <br><br><br>  
+                    
+                    {{insertnonstudent.submit(class="insertsubmit")}}<br><br><br>    
+                </form>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro adminupdate(updatechart,update2023,updateuser,updateschool,updatestudent) %}
+    <div class="displaymsg" id="updatechart_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="updateclose(this.id)" id="updatechart"> X </button>
+            <div class="insertform_inner">
+                <form method="POST" action="/updatechart2024" style="text-align:center" id="updatechartform">
+                
+                    {{updatechart.csrf_token }} 
+                
+                    <div style="font-size:60px;"> Update Record </div>
+                    <div style="font-size:30px;"> Name (view only) </div>
+
+                    <div id = "chartnamediv" , data-edit ="false">
+                        {{updatechart.name(class="insertfield", id="chartname" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> School ID </div>
+
+                    <div id = "chartsiddiv" , data-edit ="true">
+                        {{updatechart.sid(class="insertnumberfield", id="chartsid" )}}
+                    </div>
+                    <br><br><br>
+                    
+                    <div style="font-size:30px;"> Team Number </div>
+                    <div id = "charttiddiv" , data-edit ="true">
+                        {{updatechart.tid(class="insertnumberfield" ,id ="charttid")}}
+                    </div><br><br><br>
+                    
+                    <div style="font-size:30px;"> Seed (view only) </div>
+                    <div id = "chartseeddiv" , data-edit ="false">
+                        {{updatechart.seed(class="insertnumberfield" ,id="chartseed" )}} 
+                    </div> <br><br><br>  
+                    <div style="font-size:30px;">Losed?</div>
+                    <div id = "chartloseddiv" , data-edit ="true">
+                        {{updatechart.losed(class="insertnumberfield", id="chartlosed" )}} 
+                    </div><br><br><br>  
+                    <div id = "chartsubmitdiv" , data-edit ="true">
+                    {{updatechart.submit(class="insertsubmit", id="chartsubmit")}}<br><br><br>
+                    </div>    
+
+                    {{updatechart.original(id="updatechartog")}}
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="displaymsg" id="update2023_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="updateclose(this.id)" id="update2023"> X </button>
+            <div class="insertform_inner">
+                <form method="POST" action="/updatechart2023" style="text-align:center" id="update2023form">
+                
+                    {{update2023.csrf_token }} 
+                
+                    <div style="font-size:60px;"> Update Record </div>
+                    <div style="font-size:30px;"> Name (view only) </div>
+
+                    <div id = "name2023div" , data-edit ="false">
+                        {{update2023.name(class="insertfield", id="name2023" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> School ID </div>
+
+                    <div id = "sid2023div" , data-edit ="true">
+                        {{update2023.sid(class="insertnumberfield", id="sid2023" )}}
+                    </div>
+                    <br><br><br>
+                    
+                    <div style="font-size:30px;"> Team Number </div>
+                    <div id = "tid2023div" , data-edit ="true">
+                        {{update2023.tid(class="insertnumberfield" ,id ="tid2023")}}
+                    </div><br><br><br>
+                    
+                    <div style="font-size:30px;"> Seed </div>
+                    <div id = "seed2023div" , data-edit ="true">
+                        {{update2023.seed(class="insertnumberfield" ,id="seed2023" )}} 
+                    </div> <br><br><br>  
+                    <div style="font-size:30px;">Won matches</div>
+                    <div id = "won2023div" , data-edit ="true">
+                        {{update2023.won(class="insertnumberfield", id="won2023" )}} 
+                    </div><br><br><br>  
+                    <div style="font-size:30px;">Losed?</div>
+                    <div id = "losed2023div" , data-edit ="true">
+                        {{update2023.losed(class="insertnumberfield", id="losed2023" )}} 
+                    </div><br><br><br>  
+                    <div id = "submit2023div" , data-edit ="true">
+                    {{update2023.submit(class="insertsubmit", id="submit2023")}}<br><br><br>
+                    </div>    
+                    {{update2023.original(id="update2023og")}}
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="displaymsg" id="updateuser_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="updateclose(this.id)" id="updateuser"> X </button>
+            <div class="insertform_inner">
+                <form method="POST" action="/updateuser" style="text-align:center" id="updateuserform">
+                    {{updateuser.csrf_token }} 
+
+                    <div style="font-size:60px;"> Update Record </div>
+                    <div style="font-size:30px;"> ID </div>
+                    <div id = "useriddiv" >
+                        {{updateuser.id(class="insertnumberfield", id="userid" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> username </div>
+                    <div id = "usernamediv">
+                        {{updateuser.user(class="insertfield", id="username" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> email </div>
+                    <div id = "useremaildiv" >
+                        {{updateuser.email(class="insertfield", id="useremail" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> password </div>
+                    <div id = "userpwdiv" >
+                        {{updateuser.pw(class="insertfield", id="userpw" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> Is Admin? </div>
+                    <div id = "useradmindiv">
+                        {{updateuser.admin(class="insertnumberfield", id="useradmin" )}} 
+                    </div><br><br><br>  
+
+                    <div id = "usersubmitdiv" >
+                        {{updateuser.submit(class="insertsubmit", id="usersubmit")}}
+                    </div><br><br><br>
+                    
+
+                        {{updateuser.original(id="updateuserog")}}
+                    
+
+                </form>
+            </div>
+        </div>
+    </div>   
+
+    <div class="displaymsg" id="updatestudent_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="updateclose(this.id)" id="updatestudent"> X </button>
+            <div class="insertform_inner">
+                <form method="POST" action="/updatestudent" style="text-align:center" id="updatestudentform">
+                    {{updatestudent.csrf_token }} 
+
+                    <div style="font-size:60px;"> Update Record </div>
+                    <div style="font-size:30px;"> ID </div>
+                    <div id = "studentiddiv" >
+                        {{updatestudent.id(class="insertnumberfield", id="studentid" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> username </div>
+                    <div id = "studentnamediv">
+                        {{updatestudent.user(class="insertfield", id="studentname" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> password </div>
+                    <div id = "studentpwdiv" >
+                        {{updatestudent.pw(class="insertfield", id="studentpw")}}
+                    </div><br><br><br> 
+
+
+                    <div id = "studentsubmitdiv" >
+                        {{updatestudent.submit(class="insertsubmit", id="studentsubmit")}}
+                    </div><br><br><br>
+                    
+
+                        {{updatestudent.original(id="updatestudentog")}}
+                    
+
+                </form>
+            </div>
+        </div>
+    </div>   
+
+    <div class="displaymsg" id="updateschool_container">
+        <div class="insertform_outer">
+            <button class="insertclosebtn" onclick="updateclose(this.id)" id="updateschool"> X </button>
+            <div class="insertform_inner">
+                <form method="POST" action="/updateschool" style="text-align:center" id="updateschoolform">
+                    {{updateschool.csrf_token }} 
+
+                    <div style="font-size:60px;"> Update Record </div>
+                    <div style="font-size:30px;"> SID </div>
+                    <div id = "schoolsiddiv" >
+                        {{updateschool.sid(class="insertnumberfield", id="schoolsid" )}}
+                    </div><br><br><br> 
+
+                    <div style="font-size:30px;"> School Name </div>
+                    <div id = "schoolnamediv">
+                        {{updateschool.name(class="insertfield", id="schoolname" )}}
+                    </div><br><br><br> 
+
+
+                    <div id = "schoolsubmitdiv" >
+                        {{updateschool.submit(class="insertsubmit", id="schoolsubmit")}}
+                    </div><br><br><br>
+                    
+
+                        {{updateschool.original(id="updateschoolog")}}
+                    
+
+                </form>
+            </div>
+        </div>
+    </div>   
+{% endmacro %}
+
+
+{% macro adminbtns() %} 
+    <div class='displaymsg' id="functions_container">
+        <div class="functionsbtndiv"> <button class="functionsbtn" id="editchoosedb" onclick="display(this.id)"> edit or update </button> </div>
+        <div class="functionsbtndiv"> <button class="functionsbtn" id ="insertchoosedb" onclick="display(this.id)"> insert new record </button></div> 
+        <div class="functionsbtndiv"> <button class="functionsbtn" id ="endapplication" onclick="display(this.id)"> 
+            {% if session['applyopen'] == True %}
+                End application 
+            {% else %}
+                Open application
+            {% endif %}
+        
+        
+        </button></div> 
+    </div>
+
+    <div class="displaymsg" id="insertchoosedb_container">
+        <div class="insertchoosebtndiv"><button class="insertchoosebtn" id="insertteam" onclick="display(this.id)"> Insert New Team </button></div>
+        <div class="insertchoosebtndiv"><button class="insertchoosebtn" id="insertschool" onclick="display(this.id)"> Insert New School </button></div>
+        <div class="insertchoosebtndiv"><button class="insertchoosebtn" id="insert2023" onclick="display(this.id)"> Insert New Team for 2023 </button></div>
+        <div class="insertchoosebtndiv"><button class="insertchoosebtn" id="insertnonstudent" onclick="display(this.id)"> Insert New Non Student account </button></div>
+    </div> 
+{% endmacro %}
+
