@@ -92,7 +92,7 @@ def createteam(chartyear):
                         teams[j+1].append(newteam)
                     if byes != 0:         
                         db.session.commit()
-                        if len(teams[j]) != groupamount: #to deal with four block , as there are chance bye needs to be add but the block it self hv no space
+                        if len(teams[j]) != groupamount: #there are chance bye needs to be add but the block it self hv no space
                             teams[j].append(byedict)
                         elif len(teams[3-j]) != groupamount:
                             teams[3-j].append(byedict) 
@@ -134,24 +134,28 @@ def createteam(chartyear):
         # second step (add bye or player until each block is power of two)
         # find the name , sid , tid of the remaining schools 
         remaining_school = db.session.query(chartyear.SID , chartyear.TID ).filter( chartyear.SID.notin_(rank4)).group_by(chartyear.SID, chartyear.TID).order_by(func.count(chartyear.SID).desc()).all()
-        
-        # it will be something like [(name,sid)......]  
+        print(remaining_school)
+        # it will be something like [(name,sid)......] 
+        print('139',teams,byes,totalbyes) 
         while byes != 0 or remaining_school:
+            
             blocknum = 0
             # go through each block and see if it is even or not , if not : add things
             while blocknum != 4:
 
-                if len(teams[blocknum]) != groupamount or amount == 2: #if != 0 : not even
+                if len(teams[blocknum]) != groupamount or amount == 2: 
     
                 
-                    if (len(teams[blocknum]) %2 != 0 or not remaining_school) and byes != 0 and (teams[blocknum] or not remaining_school):     #the block contains things + odd = need byes
- 
-                            db.session.commit()     
+                    if len(teams[blocknum]) %2 != 0 and byes != 0  :
+                            print(blocknum)     #the block contains things + odd = need byes
+                            print(byes)
+                            print("hiiiiiiiiiiiiiiiiiiiiiiiiii")
                             newbye = {'name':'bye' ,'sid':None , 'tid':None, 'eliminated': True}
                             teams[blocknum].append(newbye)
                             byes -= 1                        
                     elif remaining_school: #if there are teams hvnt been added
-
+                            print('remain',remaining_school)
+                            print('teams',teams)
                             #if there are schools that hv team two 
                             name = db.session.query(schools.NAME).filter(schools.SID == remaining_school[0][0]).all()[0][0]
                             if db.session.query(chartyear).where(chartyear.SID == remaining_school[0][0] ).count() == 2 and remaining_school[0][1] == 1:
@@ -162,6 +166,9 @@ def createteam(chartyear):
                                         'eliminated': False
                                     }
                                     teams[blocknum].append(newteam)
+                                    if byes != 0 and len(teams[blocknum])!= groupamount:
+                                        teams[blocknum].append(byedict)
+                                        byes -= 1
                                     remaining_school.pop(0)
                                     newteam = { 'name':f'{name} Team two',
                                             'sid': remaining_school[0][0],
@@ -172,8 +179,14 @@ def createteam(chartyear):
                                 
                                     if len(teams[blocknum-2]) != groupamount: #if the school added if two team , add to the furtherest block which have space:
                                             teams[blocknum-2].append(newteam)
+                                            if byes != 0 and len(teams[blocknum-2])!= groupamount:
+                                                teams[blocknum-2].append(byedict)
+                                                byes -= 1
                                     elif len(teams[position[blocknum]]) != groupamount:
                                             teams[position[blocknum]].append(newteam)
+                                            if byes != 0 and len(teams[position[blocknum]])!= groupamount:
+                                                teams[position[blocknum]].append(byedict)
+                                                byes -= 1
                                     else:
                                         moveteam(blocknum,newteam,byedict)  
                                     remaining_school.pop(0)               
@@ -195,6 +208,10 @@ def createteam(chartyear):
                                     teams[blocknum].append(newteam)
                                     remaining_school.pop(0)
 
+                                    if byes != 0 and len(teams[blocknum])!= groupamount:
+                                        teams[blocknum].append(byedict)
+                                        byes -= 1
+
                          #next time will not add the same school
                 blocknum += 1
     ## rearrange block four as the second block (block four must be the block with the least seed)
@@ -214,11 +231,9 @@ def createteam(chartyear):
 def continueteam(previousteam,turn):
     oldchart = previousteam[turn-1]
     newchart = []
-    print('213',newchart)
     for i in range (len(oldchart)):
         if oldchart[i]['eliminated'] == False:
             newchart.append(oldchart[i])
-    print('217',newchart)
     return newchart , len(newchart)
 
 @app.route('/chartselect' , methods=['GET', 'POST'])
@@ -235,7 +250,6 @@ def chart():
         form = progress()
         doreset = reset()
         colors = setcolor()
-        print(session['rotated'])
         if 'charts' not in session:
             session['charts'] = []
         if 'losers' not in session:
@@ -260,7 +274,6 @@ def chart():
                 db.session.query(chartinfo).filter(chartinfo.ID == 2024).update({ 'AMOUNT': newamount })
                 db.session.commit()
             else:
-                print(session['charts'])
                 newteam , newamount = continueteam(session['charts'],turn)
                 session['charts'].append(newteam)
                 db.session.query(chartinfo).filter(chartinfo.ID == 2024).update({ 'AMOUNT': newamount })
@@ -275,8 +288,10 @@ def chart():
             if isinstance(sidwon, int):
                 sidwon = str(sidwon)
             if isinstance(sidlose, int):
-                sidwon = str(sidlose)  
+                sidlose = str(sidlose)  
+            print(sidwon,tidwon,sidlose,tidlose)
             db.session.query(chart2024).filter(chart2024.SID == sidwon, chart2024.TID == tidwon).update({'WON': chart2024.WON + 1})
+            print('hidasfasdfasdfdsafsdaf')
             db.session.commit()
            
             session['losers'].append([sidlose,tidlose])
@@ -284,10 +299,8 @@ def chart():
             for team in session['charts'][turn]: # turn eliminated to true 
                     print(team)
                     if team['sid'] == sidlose and team['tid'] == tidlose:
-                        print('253')
                         team['eliminated'] = True
                         session.modified = True
-            print(session['charts'][turn])
             return redirect(url_for('chart'))
         elif request.method == 'POST':
             return redirect(url_for('chart') )
@@ -300,7 +313,6 @@ def chart():
             db.session.query(chartinfo).filter(chartinfo.ID == 2024).update({ 'TURN': chartinfo.TURN + 1 })
             db.session.commit()
             session['losers']=[]
-            print('276')
             return redirect(url_for('chart'))
         db.session.commit()
     

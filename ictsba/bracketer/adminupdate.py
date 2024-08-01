@@ -47,11 +47,12 @@ def updatechart2024():
             db.session.query(students).filter(students.SID == form.sid.data , students.TID == 1).update({students.TID:2})
         #after all update is done, update the record
         db.session.query(chart2024).filter(chart2024.SID == -1 , chart2024.TID == -1).update({chart2024.TID: form.tid.data, chart2024.SID: form.sid.data, chart2024.LOSE: form.losed.data})
-
+        print(type(form.sid.data))
+        print('asjd;fasd;lkfjsdal;kfjsda',form.losed.data)
         db.session.query(students).filter(students.SID == -1 , students.TID == -1 ).update({students.TID:form.tid.data, students.SID: form.sid.data})
             #commit 
         db.session.commit()
-        db.session.query(chart2024).update({'LOSE': False})
+        db.session.query(chart2024).filter(chart2024.SID != form.sid.data , chart2024.TID != form.tid.data).update({'LOSE': False})
         db.session.query(chart2024).update({'WON':0})
         db.session.query(chartinfo).delete()
         db.session.commit()
@@ -123,9 +124,7 @@ def updatestudents():
 @app.route('/updatechart2023', methods=['GET', 'POST'])
 def updatechart2023():
     form = update2023()
-    def directupdate(): #directly update the required data
-        db.session.query(chart2023).filter(chart2023.SID == og['chartsid'], chart2023.TID == og['charttid']).update({chart2023.TID: form.tid.data, chart2023.SID: form.sid.data, chart2023.LOSE: form.losed.data})
-  
+    
 
     if form.validate_on_submit():
         og = json.loads(form.original.data)
@@ -159,7 +158,7 @@ def updatechart2023():
                   
             db.session.query(chart2023).filter(chart2023.SID == form.sid.data , chart2023.TID == 1).update({chart2023.TID:2})
               
-            print(form.losed.data)
+            
             #after all update is done, update the record    
         db.session.query(chart2023).filter(chart2023.SID == -1 , chart2023.TID == -1).update({chart2023.TID: form.tid.data, chart2023.SID: form.sid.data, chart2023.LOSE: form.losed.data , chart2023.SEED : form.seed.data ,chart2023.WON:form.won.data})
        

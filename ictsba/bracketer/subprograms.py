@@ -49,9 +49,9 @@ def addteam(form):
 
         ## add team 1 memebers to students
 
-        print("hi")
+
         createpw()
-        print(session['passwords'])
+    
         users = [students(SID = form.sid.data, TID = 1 , USER = form.t1participant1.data , PW = session['passwords'][0] ),
                  students(SID = form.sid.data, TID = 1 , USER = form.t1participant2.data, PW = session['passwords'][1] ),
                  students(SID = form.sid.data, TID = 1 , USER = form.t1participant3.data, PW = session['passwords'][2]),
@@ -76,7 +76,6 @@ def addteam(form):
 
         ## add team 2 memebers 
             createpw()
-            print(session['passwords'])
 
             users = [students(SID = form.sid.data, TID = 2 , USER = form.t2participant1.data , PW = session['passwords'][4]),
                     students(SID = form.sid.data, TID = 2 , USER = form.t2participant2.data, PW = session['passwords'][5]),

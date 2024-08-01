@@ -6,6 +6,7 @@
 {% block content %}
 <!-- flash error -->
 <script>
+  
   function closeflash()
   {
     document.querySelector('#error_container').style.display="none"; 
@@ -39,6 +40,7 @@
       }
       
   }
+ 
   </script>
   <form method="POST" action="" style="text-align:center">
     {{ form.csrf_token }}  
@@ -88,5 +90,5 @@
     
   </div>
 {% endif %}
-
+<script> window.onload = disable()</script>
 {% endblock %}

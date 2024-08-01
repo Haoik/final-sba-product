@@ -27,7 +27,9 @@ def check2team2024(form,field):
 def check2sid2024(form,field):
     og = json.loads(form.original.data)
     #if after updating the team's sid , there will be three teams
-    if db.session.query(chart2024).filter(chart2024.SID == field.data).count() == 2 and og['chartsid'] != int(field.data):
+    if db.session.query(chart2024).filter(chart2024.SID == field.data).count() == 2 and og['chartsid'] != str(field.data):
+        print(type(og['chartsid']))
+        print(type(field.data))
         raise validators.ValidationError("That school already have two teams!")
 
 def check2team2023(form,field):
@@ -40,7 +42,7 @@ def check2team2023(form,field):
 def check2sid2023(form,field):
     og = json.loads(form.original.data)
     #if after updating the team's sid , there will be three teams
-    if db.session.query(chart2023).filter(chart2023.SID == field.data).count() == 2 and og['sid2023'] != int(field.data):
+    if db.session.query(chart2023).filter(chart2023.SID == field.data).count() == 2 and og['sid2023'] != str(field.data):
         raise validators.ValidationError("That school already have two teams!")
 
 def checkrepeatid(form,field):
@@ -55,9 +57,8 @@ def checkrepeatid(form,field):
 def checkrepeatsid(form,field):
     og = json.loads(form.original.data)
     if field.data: #if id is changed
-        id = int(field.data)
         #if the user changed the sid and there are already some school using that sid --> arise error
-        if db.session.query(schools).filter(schools.SID == id).count() == 1 and og['schoolsid'] != id: 
+        if db.session.query(schools).filter(schools.SID == field.data).count() == 1 and og['schoolsid'] != field.data: 
             raise validators.ValidationError("Do not use duplicated SID!")
         
 

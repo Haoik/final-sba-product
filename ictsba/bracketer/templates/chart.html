@@ -57,14 +57,15 @@
         })
     var totalround = document.querySelectorAll('.rounds').length
     if (rotate == true){
-      var pdf = new jsPDF('p', 'pt', [chartheight +1000 , chartwidth+1000  ])
+      console.log(rotate)
+      var pdf = new jsPDF('p', 'pt', [chartheight+1000, chartwidth+1000])
     }else{
-      var pdf = new jsPDF('p', 'pt', [chartwidth+1000  , chartheight+1000  ])
+      var pdf = new jsPDF('p', 'pt', [chartwidth+1000, chartheight+1000])
     }
       canvas = await html2canvas(document.querySelector(`.chartpage`));
       var imgData = canvas.toDataURL("image/jpeg", 1.0);
       if (rotate == true){
-      pdf.addImage(imgData, 'JPG',  0,  0  ,chartheight,chartwidth);   
+      pdf.addImage(imgData, 'JPG',  0,  0  ,chartheight ,chartwidth);   
       }else{
       pdf.addImage(imgData, 'JPG',  0,  0  ,chartwidth , chartheight );  
       }
@@ -105,7 +106,7 @@
     <button type="button" class="buttons" id="popupback" onclick="closething()"> back </button>
   </form>
 </div>
-<div>
+<div class="colorchart_container">
 
   {{macros.generatechart(teams)}}
   <form id='setcolor' method="POST" action ="{{ url_for('colorset') }}" style="text-align:center">
@@ -196,6 +197,7 @@
 {% if session['rotated'] == True %}
 <script>
       //rotate chartpage
+      let rotate = true
       blocks = document.getElementsByClassName('block')
      
       rotatebutton = document.getElementById('rotatebutton')
@@ -215,12 +217,11 @@
       console.log(oneblockwidth)
       round0width = oneblockwidth*roundoneblocks
       document.querySelector('.chartpage').style.webkitTransform ='rotate(90deg)';
-      document.querySelector('.chartpage').style.height = `${round0width+300}px;`
       blocks = document.getElementsByClassName('block')
       for (var i = 0; i < blocks.length; i++){
         blocks[i].style.webkitTransform ='rotate(-90deg)';
       }
-      document.querySelector('.chartpage').style.height = `${round0width+300}px;`
+      document.querySelector('.chartpage').style.height = `${1000}px;`
       for (var i = 0; i < rounds.length; i++){
         rounds[i].style.height = `${round0width+300}px`
       }

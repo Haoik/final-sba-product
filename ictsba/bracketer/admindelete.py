@@ -46,7 +46,7 @@ def processnonstudents():
         for user in range(len(removeitems)):
             removeitems[user]= json.loads(removeitems[user])   
         for user in removeitems:
-            db.session.query(users).filter(users.ID == users['id']).delete()
+            db.session.query(users).filter(users.ID == user['id']).delete()
             db.session.commit()
 
     if 'dbinfo' not in session: #if the user is not deleting but accessed here --> get chart2024 ( also work, later change to chart2024)
@@ -176,6 +176,7 @@ def processchart2024():
 
         for sid in updatet2:
             db.session.query(chart2024).filter(chart2024.SID ==  sid , chart2024.TID == 2 ).update({'TID':1})
+            db.session.query(students).filter(students.SID ==  sid , students.TID == 2 ).update({'TID':1})
             db.session.commit()
         db.session.query(chart2024).update({'LOSE': False})
         db.session.query(chart2024).update({'WON':0})

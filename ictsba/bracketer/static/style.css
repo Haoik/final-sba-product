@@ -133,7 +133,10 @@ input::placeholder {
     height: 10000px;
     background-color: #bd6d6d;
 }
+.colorchart_container{
+    height:fit-content;
 
+}
 .block {
     display:flex;
     position:relative;
@@ -226,7 +229,6 @@ input::placeholder {
     display:flex;
     flex-direction: 'row';
     margin: auto;
-    overflow:auto;
     border-style:solid;
     border-color:gold;
 }

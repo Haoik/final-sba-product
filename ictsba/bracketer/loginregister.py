@@ -24,10 +24,11 @@ def guestpage():
             if db.session.query(users.ADMIN).filter(users.USER == form.username.data).all()[0][0] == False:
                 session['usertype'] = 'guest'
             else: 
-                session['usertype'] = 'admin'    
+                session['usertype'] = 'admin'  
+            session['redirect'] = url_for('guestpage') 
             return redirect(url_for('load'))
         else:
-            session['flash'] = "incorrect student ID or password!"
+            session['flash'] = "incorrect username or password!"
     elif request.method=='POST': 
         for field , error in form.errors.items():
             session['flash'] = f'{error[0]}'  
@@ -49,6 +50,7 @@ def studentpage():
             session['usertype'] = 'student'
             session['username'] = db.session.query(students.USER).filter(students.ID == form.sid.data).all()[0][0]
             session['studentid'] = form.sid.data
+            session['redirect'] = url_for('studentpage')
             return redirect(url_for('load'))
         else:
             print("wrong password")
@@ -98,4 +100,4 @@ def load():
             session['team'].append(member[0])
             session['schoolname'] = db.session.query(schools.NAME).filter(schools.SID == schoolid).all()[0][0]
             session['teamid'] = teamid
-    return redirect(url_for('homepage'))
+    return redirect((session['redirect']))

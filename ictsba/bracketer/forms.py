@@ -27,7 +27,10 @@ def confirmpw(form,field):
         raise validators.ValidationError("Wrong password!")
      
 def pwstrength(form,field):
-    if len(field.data) < 8 and any(i.isdigit() for i in field.data) == False and (any(i.isupper() for i in field.data) == False or any(i.islower() for i in field.data) == False):
+    if len(field.data) < 8 or any(i.isdigit() for i in field.data) == False or (any(i.isupper() for i in field.data) == False and any(i.islower() for i in field.data) == False):
+        print(field.data)
+        print(len(field.data))
+        print(any(i.isdigit() for i in field.data))
         raise validators.ValidationError("Password length must be at least 8 and contains both letters and digit!") 
     
 def applyrepeat2024(form,field):
@@ -48,11 +51,12 @@ def checkchinese(form,field):
         pattern = re.compile(r'[\u4e00-\u9fff]+')
         return bool(pattern.match(text))
     chinese = True
-    for string in field.data:
-        if (checkchinese(string.strip())) == False:
-            chinese = False
-    if chinese == False:
-        raise validators.ValidationError("Enter Your *Chinese* Name")
+    if field.data:
+        for string in field.data:
+            if (checkchinese(string.strip())) == False:
+                chinese = False
+        if chinese == False:
+            raise validators.ValidationError("Enter Your *Chinese* Name")
 def checkrepeatmail(form,field):
     if db.session.query(users).filter(users.EMAIL == field.data).first():
        raise validators.ValidationError("This email belongs to another account!")
@@ -110,7 +114,7 @@ class guestregister(FlaskForm):
     username = StringField(validators=[notfilled,checkrepeatuser])
     email = StringField(validators=[notfilled, Email("Invalid Email Address!"),checkrepeatmail])
     password = PasswordField(validators=[notfilled , pwstrength])
-    repassword = PasswordField(validators=[notfilled,confirmpw]) 
+    repassword = PasswordField(validators=[notfilled,confirmpw,pwstrength]) 
     submit = SubmitField()
 class logout(FlaskForm):
     logout = SubmitField()

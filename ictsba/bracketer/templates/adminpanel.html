@@ -324,7 +324,7 @@
                 <form method="POST" action="/insert2023" style="text-align:center" >
 
                     {{insert2023.csrf_token }} 
-                    <div style="font-size:60px;"> Insert New School </div>
+                    <div style="font-size:60px;"> Insert New Team </div>
                     <div style="font-size:30px;"> School ID </div>
                     {{insert2023.sid(class="insertnumberfield")}}<br><br><br>
                     <div style="font-size:30px;"> TID </div>
@@ -439,7 +439,7 @@
                     <div id = "seed2023div" , data-edit ="true">
                         {{update2023.seed(class="insertnumberfield" ,id="seed2023" )}} 
                     </div> <br><br><br>  
-                    <div style="font-size:30px;">Won matches</div>
+                    <div style="font-size:30px;" , data-edit ="false" >Won matches</div>
                     <div id = "won2023div" , data-edit ="true">
                         {{update2023.won(class="insertnumberfield", id="won2023" )}} 
                     </div><br><br><br>  
