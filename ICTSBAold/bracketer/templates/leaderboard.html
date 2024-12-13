@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}
+  leaderboard
+{% endblock %}
+
+{% block content %}
+<div class="lbtext">LEADERBOARD</div>
+<div class="lb_container">
+    
+    <div class="lblargerno_container">
+        <br>
+        {%for i in range(lb|length)%}
+            <div class="lbno" id="lbrank">
+            {% if i == 0 %}
+                    <span style="color:gold"> #1</span>
+            {% elif i == 1 %}
+                    <span style="color:grey"> #2</span>                
+            {% elif i == 2 %}           
+                <span style="color:orange"> #3</span>
+            {% else %}
+                    #{{i+1}}
+            {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="lbname_container">
+        <br>
+        {%for i in range(lb|length)%}
+            <div class="lbname" >
+                {{lb[i]['name']}}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="lbno_container"  >
+        <br>
+        {%for i in range(lb|length)%}
+            <div class="lbno"  id="lbtid"> 
+                team {{lb[i]['tid']}}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="lblargerno_container">
+        WON COUNT
+        {%for i in range(lb|length)%}
+            <div class="lbno">
+                {{lb[i]['won']}}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="lblargerno_container">
+        ELIMINATED
+        {%for i in range(lb|length)%}
+            <div class="lbno" id="lblosed">
+                {% if lb[i]['losed'] == true %}
+                   <span style ='color:rgb(191, 27, 46)'> yes </span> 
+                {% else %}
+                <span style ='color:green'>  no </span> 
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

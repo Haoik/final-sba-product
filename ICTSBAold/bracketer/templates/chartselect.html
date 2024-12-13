@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+  chartselect
+{% endblock %}
+{% block content %}
+
+<!-- flash error -->
+<script>
+  function closeflash()
+  {
+    document.querySelector('#error_container').style.display="none"; 
+  }
+</script>
+
+{% if flash %}
+  <div id="error_container"> 
+    <div id ="errormsg">
+      {{flash}}
+    </div>
+  <button id='flashbtn' onclick="closeflash()"> X </button>
+  </div> <br><br><br>
+{% endif %}
+
+<a href="{{url_for('chart')}}" ><button class="chartbtn"> Competition Chart for this year </button> </a>
+<a href="{{url_for('lb2024')}}" ><button class="chartbtn"> Leaderboard for this year </button> </a> <br><br><br>
+
+<a href="{{url_for('chartlastyear')}}" ><button class="chartbtn"> Competition Chart for last year </button> </a>
+<a href="{{url_for('lb2023')}}" ><button class="chartbtn"> Leaderboard for last year </button> </a> <br><br><br>
+{% endblock %}

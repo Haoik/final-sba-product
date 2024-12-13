@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+  chooselogin
+{% endblock %}
+
+{% block content %}
+<div >
+    <h3 id="loginh3"> Login here if you are a <span style="color:red;">student </span> that participate in the competition</h3>
+    <h4 id="loginh4"> all applied students are provided with a set of password and student id</h4>
+    <a href="{{url_for('studentpage')}}" ><button id="stubtn"> Student Login </button></a> </div>
+
+<div >
+    <h5 id ="loginh5"> Login here if you are  <span style="color:red;"> not a student </span> that participate in the competition</h5>
+
+    <a href="{{url_for('guestpage')}}"><button  id="gstbtn"> Login </button> </a> </div>
+
+
+{% endblock%}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}
+  register
+{% endblock %}
+{% block content %}
+<script>
+  function closeflash()
+  {
+    document.querySelector('#error_container').style.display="none"; 
+    console.log("hi")
+  }
+</script>
+  {% if flash %}
+      <div id="error_container"> 
+        <div id ="errormsg">
+        {{flash}}
+        </div>
+        <button id='flashbtn' onclick="closeflash()"> X </button>
+      </div> <br><br><br>
+  {% endif %}
+{% if flash == 'Register Successfully'%}
+  <script> 
+    document.getElementById("error_container").style.backgroundColor ="lightgreen"; 
+    document.getElementById("error_container").style.borderColor = "green";
+    document.getElementById("flashbtn").style.borderColor="lightgreen";
+    document.getElementById("flashbtn").style.backgroundColor="lightgreen";
+  </script>
+{% endif %}
+<div id="register_container">
+    <form method="POST" action="/register" style="text-align:center">
+        {{ form.csrf_token }} 
+        {{form.username(class='field' , placeholder ='Username')}} <br><br>
+        {{form.email(class='field', placeholder ='Email')}}  <br><br>
+        {{form.password(class = 'field', placeholder ='password' )}} <br><br>
+        {{form.repassword(class='field', placeholder ='reconfirm your password')}} <br><br>
+        {{form.submit(class='submit')}}
+    </form>
+</div>
+{% endblock %}
